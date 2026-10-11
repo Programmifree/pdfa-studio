@@ -1,0 +1,16 @@
+{
+  "name": "Programmifree PDF/A Studio",
+  "short_name": "PDF/A Studio",
+  "description": "Converti PDF in PDF/A-1b, 2b, 3b e altri livelli. Elaborazione 100% nel browser: nessun upload, nessuna registrazione.",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f9",
+  "theme_color": "#0f6b43",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

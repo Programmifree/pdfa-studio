@@ -1,0 +1,12 @@
+# Local tools (JRE, veraPDF CLI) — not part of the app source
+tools/
+
+# Test outputs
+prototype/test/out/
+prototype/test/browser-b64.txt
+prototype/test/verapdf-report.txt
+prototype/test/s2-2b-report.json
+
+# OS junk
+Thumbs.db
+.DS_Store

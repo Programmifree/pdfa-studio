@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programmifree PDF/A Studio — conversione PDF/A nel tuo browser</title>
+<meta name="description" content="Converti PDF in PDF/A-1b, 2b, 3b e altri livelli. Elaborazione 100% locale: nessun upload, nessuna registrazione.">
+<meta name="theme-color" content="#0f6b43">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f7f9; --card: #ffffff; --text: #1c2430; --muted: #5b6774;
+    --line: #d9dee5; --accent: #0f6b43; --accent-soft: #e3f2ea;
+    --danger: #b3261e; --danger-soft: #fbe9e7; --warn: #8a5b00; --warn-soft: #fff4d6;
+    --chip: #eef1f4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12161b; --card: #1b2129; --text: #e8ecf1; --muted: #9aa6b2;
+      --line: #2c3540; --accent: #4cc48c; --accent-soft: #16352a;
+      --danger: #ff8a80; --danger-soft: #3a1d1a; --warn: #ffd166; --warn-soft: #3a2f14;
+      --chip: #232b35;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  header h1 { font-size: 1.6rem; margin: 0 0 .35rem; }
+  header p { margin: 0; color: var(--muted); }
+  .privacy { display: inline-flex; gap: .4rem; align-items: center; background: var(--accent-soft); color: var(--accent);
+    border-radius: 999px; padding: .25rem .8rem; font-size: .82rem; font-weight: 600; margin-top: .8rem; }
+
+  .dropzone { margin-top: 1.5rem; border: 2px dashed var(--line); border-radius: 14px; background: var(--card);
+    padding: 2.2rem 1.5rem; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
+  .dropzone.drag { border-color: var(--accent); background: var(--accent-soft); }
+  .dropzone strong { display: block; font-size: 1.05rem; margin-bottom: .25rem; }
+  .dropzone span { color: var(--muted); font-size: .9rem; }
+  .dropzone input { display: none; }
+
+  .options { display: flex; gap: 1rem 1.5rem; align-items: center; flex-wrap: wrap; margin: 1rem 0; font-size: .92rem; }
+  .options label { display: inline-flex; gap: .4rem; align-items: center; color: var(--muted); }
+  select { padding: .45rem .6rem; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--text); }
+  button { padding: .55rem 1.1rem; border-radius: 9px; border: 1px solid var(--line); background: var(--card);
+    color: var(--text); cursor: pointer; font-size: .92rem; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button:disabled { opacity: .45; cursor: default; }
+  button.link { border: none; background: none; color: var(--accent); text-decoration: underline; padding: .2rem; }
+
+  .file { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; margin-top: .8rem; }
+  .file .head { display: flex; gap: .75rem; align-items: baseline; flex-wrap: wrap; }
+  .file .name { font-weight: 600; word-break: break-all; }
+  .file .meta { color: var(--muted); font-size: .84rem; }
+  .file .actions { margin-top: .6rem; display: flex; gap: .6rem; flex-wrap: wrap; }
+  .file details { margin-top: .55rem; }
+  .file summary { cursor: pointer; color: var(--muted); font-size: .85rem; }
+  .file pre { font-size: .74rem; background: var(--chip); border-radius: 8px; padding: .6rem; overflow: auto; max-height: 200px; }
+  .status { font-size: .88rem; color: var(--muted); }
+  .badge { display: inline-block; border-radius: 6px; padding: .12rem .55rem; font-size: .8rem; font-weight: 700; }
+  .badge.pass { background: var(--accent-soft); color: var(--accent); }
+  .badge.fail { background: var(--danger-soft); color: var(--danger); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .findings { margin: .4rem 0 0; padding-left: 1.1rem; font-size: .85rem; color: var(--muted); }
+  .findings li { margin: .15rem 0; }
+
+  footer { margin-top: 2.5rem; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+  footer a { color: var(--accent); }
+  .footlinks { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: .8rem; font-weight: 600; }
+  .bar { height: 4px; border-radius: 2px; background: var(--chip); margin-top: .6rem; overflow: hidden; display: none; }
+  .bar.on { display: block; }
+  .bar i { display: block; height: 100%; width: 40%; background: var(--accent); border-radius: 2px;
+    animation: slide 1.1s ease-in-out infinite alternate; }
+  @keyframes slide { from { margin-left: 0; } to { margin-left: 60%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Programmifree PDF/A Studio</h1>
+    <p>Converti documenti PDF in <b>PDF/A-1b, 2b, 3b</b> e altri livelli per l'archiviazione di lungo termine.</p>
+    <span class="privacy">100% nel tuo browser — nessun upload, nessuna registrazione</span>
+  </header>
+
+  <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Trascina qui i PDF o clicca per sceglierli">
+    <strong>Trascina qui i tuoi PDF</strong>
+    <span>oppure clicca per sceglierli — i file restano sul tuo dispositivo</span>
+    <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple>
+  </div>
+
+  <div class="options">
+    <label>Livello
+      <select id="level">
+        <optgroup label="PDF/A-1 (2005)">
+          <option value="1b">PDF/A-1b — base</option>
+        </optgroup>
+        <optgroup label="PDF/A-2 (2011)">
+          <option value="2b" selected>PDF/A-2b — base (consigliato)</option>
+          <option value="2u">PDF/A-2u — + testo Unicode</option>
+          <option value="2a">PDF/A-2a — + accessibilità</option>
+        </optgroup>
+        <optgroup label="PDF/A-3 (2012)">
+          <option value="3b">PDF/A-3b — base + allegati</option>
+          <option value="3u">PDF/A-3u — + testo Unicode</option>
+          <option value="3a">PDF/A-3a — + accessibilità</option>
+        </optgroup>
+        <optgroup label="PDF/A-4 (2020)">
+          <option value="4">PDF/A-4 — standard</option>
+          <option value="4f">PDF/A-4F — + allegati</option>
+          <option value="4e">PDF/A-4E — ingegneria</option>
+        </optgroup>
+      </select>
+    </label>
+    <label>Motore
+      <select id="engine">
+        <option value="kura" selected>Kura (consigliato: ripara e autoverifica)</option>
+        <option value="gs">Ghostscript</option>
+      </select>
+    </label>
+    <span id="engineNote" class="status" hidden>motore non disponibile per questo livello: uso Kura</span>
+    <label><input type="checkbox" id="autoValidate" checked> Valida automaticamente il risultato</label>
+    <button class="link" id="sampleBtn" type="button">prova con un file di esempio</button>
+  </div>
+
+  <div id="results"></div>
+
+  <footer>
+    <p><b>Validità dimostrata, non presunta.</b> Ogni file convertito viene ricontrollato nel browser con regole
+    allineate a veraPDF (motore Kura) prima che tu lo scarichi. Se scegli Ghostscript come motore di conversione
+    e la verifica non supera, il file viene automaticamente riparato con Kura. Tutto gira come WebAssembly nel tuo
+    dispositivo: Ghostscript 10.06 e Kura (entrambi AGPL-3.0, open source). I PDF criptati o protetti da
+    password non sono supportati.</p>
+    <p>Funziona anche <b>offline</b>: dopo la prima visita i motori restano sul tuo dispositivo (app installabile).</p>
+    <nav class="footlinks">
+      <a href="https://github.com/programmifree" target="_blank" rel="noopener">Codice sorgente su GitHub (AGPL-3.0)</a>
+      <a href="https://programmifree.com" target="_blank" rel="noopener">Programmifree.com</a>
+      <!-- TODO: sostituire con l'URL di donazione definitivo -->
+      <a href="https://programmifree.com/dona/" target="_blank" rel="noopener">Sostieni Programmifree ♥</a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
+</script>
+
+<script type="module">
+  const $ = (id) => document.getElementById(id);
+  const results = $('results');
+  const levelSel = $('level');
+
+  const gsWorker = new Worker(new URL('./gs-worker.js', import.meta.url), { type: 'module' });
+  const kuraWorker = new Worker(new URL('./kura-worker.js', import.meta.url), { type: 'module' });
+
+  let seq = 0;
+  const waiters = new Map();
+  function wire(worker) {
+    worker.onmessage = (e) => {
+      const w = waiters.get(e.data.id);
+      if (w) { waiters.delete(e.data.id); w(e.data); }
+    };
+  }
+  wire(gsWorker); wire(kuraWorker);
+  function ask(worker, msg) {
+    return new Promise((resolve) => {
+      const id = ++seq;
+      waiters.set(id, resolve);
+      worker.postMessage({ ...msg, id });
+    });
+  }
+
+  const fmtSize = (n) => n > 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.round(n / 1e3) + ' kB';
+
+  function card(name) {
+    const el = document.createElement('div');
+    el.className = 'file';
+    el.innerHTML = `
+      <div class="head"><span class="name"></span><span class="meta"></span></div>
+      <p class="status">In coda…</p>
+      <div class="bar"><i></i></div>
+      <div class="actions" hidden></div>
+      <div class="badges"></div>
+      <ul class="findings"></ul>
+      <details hidden><summary>Log tecnico</summary><pre></pre></details>`;
+    el.querySelector('.name').textContent = name;
+    results.prepend(el);
+    return {
+      el,
+      status: (t) => { el.querySelector('.status').textContent = t; el.querySelector('.bar').classList.toggle('on', /in corso|Elaboraz|Validaz|Conversion/.test(t)); },
+      meta: (t) => { el.querySelector('.meta').textContent = t; },
+      badges: (list) => {
+        el.querySelector('.badges').innerHTML = list
+          .map((b) => `<span class="badge ${b.kind}">${b.text}</span>`).join(' ');
+      },
+      findings: (items) => {
+        const ul = el.querySelector('.findings');
+        ul.innerHTML = '';
+        for (const f of items) {
+          const li = document.createElement('li');
+          li.textContent = f;
+          ul.appendChild(li);
+        }
+      },
+      actions: (nodes) => {
+        const box = el.querySelector('.actions');
+        box.innerHTML = '';
+        box.hidden = !nodes.length;
+        for (const n of nodes) box.appendChild(n);
+      },
+      log: (t) => {
+        const d = el.querySelector('details');
+        if (t && t.trim()) { d.hidden = false; d.querySelector('pre').textContent = t.trim(); }
+      },
+      download: (bytes, filename) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+        a.download = filename;
+        a.className = 'primary';
+        a.textContent = 'Scarica PDF/A';
+        a.style.padding = '.55rem 1.1rem';
+        a.style.borderRadius = '9px';
+        a.style.border = '1px solid var(--accent)';
+        a.style.background = 'var(--accent)';
+        a.style.color = '#fff';
+        a.style.textDecoration = 'none';
+        a.style.fontWeight = '600';
+        return a;
+      },
+    };
+  }
+
+  async function validate(bytes, level) {
+    const r = await ask(kuraWorker, { mode: 'check', pdfBytes: bytes, level });
+    return r;
+  }
+
+  const GS_LEVELS = ['1b', '2b', '3b'];
+  const engineSel = $('engine');
+  const engineNote = $('engineNote');
+  levelSel.addEventListener('change', () => {
+    const ok = GS_LEVELS.includes(levelSel.value);
+    engineSel.disabled = !ok;
+    engineNote.hidden = ok;
+  });
+
+  async function processFile(name, bytes) {
+    const level = levelSel.value;
+    const useGs = GS_LEVELS.includes(level) && engineSel.value === 'gs';
+    const c = card(name);
+    const inSize = bytes.byteLength;
+    c.status('Conversione in corso… (la prima volta carica il motore, ~16 MB)');
+    const conv = useGs
+      ? await ask(gsWorker, { mode: 'convert', pdfBytes: bytes, level })
+      : await ask(kuraWorker, { mode: 'convert', pdfBytes: bytes, level });
+
+    if (!conv.ok) {
+      c.badges([{ kind: 'fail', text: 'Conversione fallita' }]);
+      c.status('Il documento non è stato convertito. ' + (conv.error || ''));
+      c.log((conv.error || '') + '\n' + (conv.logs || []).join('\n'));
+      return;
+    }
+
+    const outBytes = new Uint8Array(conv.pdf);
+    const badges = [{ kind: 'pass', text: 'Convertito in PDF/A-' + level + (useGs ? '' : ' (Kura)') }];
+    const findings = [];
+    for (const i of conv.issues || []) findings.push(i.detail || i.code);
+    c.meta(`${fmtSize(inSize)} → ${fmtSize(outBytes.byteLength)} · ${conv.ms} ms`);
+
+    let finalBytes = outBytes;
+    let validated = null;
+
+    if ($('autoValidate').checked) {
+      c.status('Validazione in corso… (la prima volta carica il motore di verifica, ~16 MB)');
+      validated = await validate(outBytes, level);
+      if (validated.ok) {
+        if (validated.compliant) {
+          badges.push({ kind: 'pass', text: 'Verificato conforme (regole veraPDF)' });
+        } else {
+          badges.push({ kind: 'fail', text: 'Non conforme (' + validated.findings + ' anomalie)' });
+          for (const i of validated.issues || []) findings.push(i.detail || i.code);
+          if (useGs) {
+            c.status('Validazione non superata: riprovo con il motore di riparazione…');
+            const retry = await ask(kuraWorker, { mode: 'convert', pdfBytes: bytes, level });
+            if (retry.ok) {
+              const checkRetry = await validate(new Uint8Array(retry.pdf), level);
+              if (checkRetry.ok && checkRetry.compliant) {
+                finalBytes = new Uint8Array(retry.pdf);
+                badges.length = 0;
+                findings.length = 0;
+                badges.push({ kind: 'warn', text: 'Ghostscript non conforme: usato Kura per la riparazione' });
+                badges.push({ kind: 'pass', text: 'Verificato conforme (regole veraPDF)' });
+                c.meta(`${fmtSize(inSize)} → ${fmtSize(finalBytes.byteLength)} · ${retry.ms} ms`);
+                for (const i of retry.issues || []) findings.push(i.detail || i.code);
+              } else {
+                badges.push({ kind: 'fail', text: 'Anche il motore di riparazione non supera la verifica' });
+                for (const i of (checkRetry.issues || [])) findings.push(i.detail || i.code);
+              }
+            } else {
+              badges.push({ kind: 'fail', text: 'Riparazione non riuscita: ' + (retry.error || '') });
+            }
+          }
+        }
+      } else {
+        badges.push({ kind: 'warn', text: 'Validazione non disponibile: ' + (validated.error || '') });
+      }
+    } else {
+      badges.push({ kind: 'warn', text: 'Non validato (validazione automatica disattivata)' });
+    }
+
+    c.badges(badges);
+    c.findings(findings);
+    c.log((conv.logs || []).join('\n'));
+    const base = name.replace(/\.pdf$/i, '');
+    c.actions([c.download(finalBytes, `${base}-pdfa-${level}.pdf`)]);
+    c.status(validated && validated.ok && validated.compliant
+      ? 'Pronto: il file è conforme ed è verificato.'
+      : 'File pronto. Verifica il badge qui sopra prima di archiviarlo.');
+  }
+
+  async function queue(files) {
+    for (const f of files) {
+      const bytes = new Uint8Array(await f.arrayBuffer());
+      await processFile(f.name, bytes);
+    }
+  }
+
+  const dz = $('dropzone');
+  const fileInput = $('fileInput');
+  dz.addEventListener('click', () => fileInput.click());
+  dz.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+  fileInput.addEventListener('change', () => { queue([...fileInput.files]); fileInput.value = ''; });
+  for (const ev of ['dragenter', 'dragover']) {
+    dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.add('drag'); });
+  }
+  for (const ev of ['dragleave', 'drop']) {
+    dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.remove('drag'); });
+  }
+  dz.addEventListener('drop', (e) => queue([...e.dataTransfer.files].filter(f => /pdf$/i.test(f.name))));
+
+  $('sampleBtn').addEventListener('click', async () => {
+    const res = await fetch('./sample.pdf');
+    if (!res.ok) return;
+    await processFile('esempio.pdf', new Uint8Array(await res.arrayBuffer()));
+  });
+
+  window.__convertFile = (name, bytes) => processFile(name, bytes);
+</script>
+</body>
+</html>
