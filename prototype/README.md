@@ -51,8 +51,7 @@ dei browser degli utenti.
 1. Con l'account bazztn: creare repo `pdfa-studio` oppure creare l'organizzazione
    gratuita `programmifree` e il repo al suo interno.
 2. Inizializzare il repo locale con il contenuto del progetto (vedi NOTICE.txt).
-3. Footer dell'app già linkato a `https://github.com/programmifree`:
-   aggiornare l'URL quando il repo è online.
+3. Footer dell'app già linkato a `https://github.com/programmifree/pdfa-studio`.
 
 ## Struttura
 
@@ -107,3 +106,4 @@ tracemonkey 1–5,8 s (Ghostscript).
    vincolati dalla memoria WASM.
 5. La verifica in-browser è allineata a veraPDF ma non è veraPDF: per certificazioni
    formali serve comunque un validatore indipendente (veraPDF CLI o via CheerpJ).
+

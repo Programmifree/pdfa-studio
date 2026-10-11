@@ -8,7 +8,7 @@ Distribuzione
 -------------
 Questo software e' distribuito sotto licenza GNU AGPL-3.0.
 Il codice sorgente completo e' disponibile su:
-https://github.com/programmifree
+https://github.com/programmifree/pdfa-studio
 
 Componenti di terze parti inclusi (entrambi AGPL-3.0):
 - Ghostscript 10.06.0 (WebAssembly build di @bentopdf/gs-wasm)

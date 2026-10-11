@@ -2,7 +2,7 @@
 // Precache completo: l'app funziona totalmente offline dalla seconda visita.
 // Aggiornamento automatico: nuova versione -> nuova cache -> vecchia eliminata.
 
-const VERSION = 'v1.0.0';
+const VERSION = 'v1.0.1';
 const CACHE = 'pdfa-studio-' + VERSION;
 
 const ASSETS = [
