@@ -2,7 +2,7 @@
 // Precache completo: l'app funziona totalmente offline dalla seconda visita.
 // Aggiornamento automatico: nuova versione -> nuova cache -> vecchia eliminata.
 
-const VERSION = 'v1.0.3';
+const VERSION = 'v1.1.0';
 const CACHE = 'pdfa-studio-' + VERSION;
 
 const ASSETS = [
@@ -12,6 +12,8 @@ const ASSETS = [
   './icon.svg',
   './icon-512.png',
   './icon-maskable-512.png',
+  './fonts/fraunces-roman.woff2',
+  './fonts/fraunces-italic.woff2',
   './gs-worker.js',
   './kura-worker.js',
   './vendor/gs.js',
