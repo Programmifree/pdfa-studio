@@ -22,7 +22,7 @@ const mime = {
 createServer(async (req, res) => {
   try {
     let urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-    if (urlPath === '/') urlPath = '/index.html';
+    if (urlPath === '/' || urlPath === '/index.htm') urlPath = '/index.html';
     const file = path.normalize(path.join(root, urlPath));
     if (!file.startsWith(root)) { res.writeHead(403); res.end(); return; }
     if (req.method === 'POST' && urlPath === '/__save') {
