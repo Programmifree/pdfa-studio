@@ -1,6 +1,8 @@
 @echo off
 rem Build the deploy/ folder for programmifree.com/web/app/pdfa/
 robocopy prototype deploy /MIR /XD test out tools node_modules /XF server.js README.md s2.pdf get-fonts.mjs
+rem /XF non cancella i file esclusi gia' presenti in deploy: rimozione esplicita
+if exist deploy\get-fonts.mjs del deploy\get-fonts.mjs
 rem Il server di Programmifree serve index.htm come documento predefinito (non index.html)
 ren deploy\index.html index.htm >nul 2>&1
 echo.
