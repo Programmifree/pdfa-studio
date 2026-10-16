@@ -442,7 +442,7 @@
       <p class="status">In coda…</p>
       <div class="bar"><i></i></div>
       <div class="badges"></div>
-      <ul class="findings"></ul>
+      <details class="findings-wrap" hidden><summary></summary><ul class="findings"></ul></details>
       <div class="actions" hidden></div>
       <details hidden><summary>Log tecnico</summary><pre></pre></details>`;
     el.querySelector('.prot').textContent = 'Prot. N° ' + String(++protocol).padStart(3, '0');
@@ -457,8 +457,13 @@
           .map((b) => `<span class="badge ${b.kind}">${b.text}</span>`).join(' ');
       },
       findings: (items) => {
-        const ul = el.querySelector('.findings');
+        const d = el.querySelector('.findings-wrap');
+        const ul = d.querySelector('.findings');
         ul.innerHTML = '';
+        if (!items || !items.length) { d.hidden = true; return; }
+        d.hidden = false;
+        d.open = false;
+        d.querySelector('summary').textContent = 'Dettagli elaborazione (' + items.length + ')';
         for (const f of items) {
           const li = document.createElement('li');
           li.textContent = f;
