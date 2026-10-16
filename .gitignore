@@ -7,6 +7,10 @@ prototype/test/browser-b64.txt
 prototype/test/verapdf-report.txt
 prototype/test/s2-2b-report.json
 
+# Deployment archives (kept locally for uploading, not in the repo)
+*.7z
+*.zip
+
 # OS junk
 Thumbs.db
 .DS_Store
