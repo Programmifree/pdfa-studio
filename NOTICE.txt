@@ -1,0 +1,25 @@
+Programmifree PDF/A Studio
+Copyright (C) 2026 Programmifree
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, version 3 of the License,
+or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see https://www.gnu.org/licenses/agpl-3.0.html
+
+Third-party components
+----------------------
+Ghostscript 10.06.0 — Copyright (C) 2025 Artifex Software, Inc.
+Licensed under the GNU AGPL-3.0. https://www.gnu.org/licenses/agpl-3.0.html
+Included as WebAssembly build from https://github.com/alam00000/bentopdf-gs-wasm
+
+BentoPDF Kura Engine (kura-pdf-wasm) — Copyright BentoPDF contributors
+Licensed under the GNU AGPL-3.0. https://github.com/alam00000/bentopdf-kura
+See vendor-kura/package/NOTICE.md for bundled third-party components.
